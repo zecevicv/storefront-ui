@@ -1,22 +1,8 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-
   extends: [
-    './domains/auth',
-    './domains/recent-view-products',
-    // "./domains/cart-odoo",
-    './domains/cart-redis',
-    './domains/category',
-    './domains/checkout',
-    './domains/core',
-    './domains/my-account',
-    './domains/product',
-    // "./domains/search-algolia",
-    './domains/search-default',
-    './domains/search-luigi',
-    './domains/wishlist',
+    '@erpgap/recent-view-products',
   ],
-
   modules: [
     '@pinia/nuxt',
     '@nuxtjs/tailwindcss',
@@ -50,6 +36,7 @@ export default defineNuxtConfig({
   },
 
   site: {
+    url: process.env.NUXT_PUBLIC_MIDDLEWARE_URL,
     name: 'ERPGAP VSF',
     description: 'Welcome to an awesome ecommerce site!',
     defaultLocale: 'en',
@@ -72,26 +59,15 @@ export default defineNuxtConfig({
   },
 
   build: {
-    transpile: [
-      'tslib',
-      '@apollo/client',
-      '@apollo/client/core',
-      '@vue/apollo-composable',
-      '@vue/apollo-option',
-      'ts-invariant',
-      'vue-toastification',
-      '@erpgap/odoo-sdk-api-client',
-    ],
+    transpile: ['vue-toastification'],
   },
 
   routeRules: {
     '/': { swr: Number(process.env?.NUXT_SWR_CACHE_TIME) },
-    '/category/*': { swr: Number(process.env?.NUXT_SWR_CACHE_TIME) },
-    '/product/*': { swr: Number(process.env?.NUXT_SWR_CACHE_TIME) },
   },
 
   experimental: {
-    asyncContext: false,
+    asyncContext: true,
   },
 
   compatibilityDate: '2024-11-06',
@@ -103,11 +79,21 @@ export default defineNuxtConfig({
         driver: process.env.NUXT_STORAGE_DRIVER,
         url: process.env.NUXT_STORAGE_URL,
       },
+      slug: {
+        driver: process.env.NUXT_STORAGE_DRIVER,
+        url: process.env.NUXT_STORAGE_URL,
+        ttl: process.env?.NUXT_SWR_CACHE_TIME || 3600,
+      },
     },
     devStorage: {
       cache: {
         driver: process.env.NUXT_STORAGE_DRIVER,
         url: process.env.NUXT_STORAGE_URL,
+      },
+      slug: {
+        driver: process.env.NUXT_STORAGE_DRIVER,
+        url: process.env.NUXT_STORAGE_URL,
+        ttl: process.env?.NUXT_SWR_CACHE_TIME || 3600,
       },
     },
   },
@@ -199,17 +185,4 @@ export default defineNuxtConfig({
     },
   },
 
-  viewport: {
-    breakpoints: {
-      desktop: 1280,
-      desktopMedium: 1440,
-      desktopWide: 1600,
-
-      mobile: 320,
-      mobileMedium: 375,
-      mobileWide: 425,
-
-      tablet: 768,
-    },
-  },
 })

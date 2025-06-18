@@ -1,13 +1,13 @@
 import type { Meta } from '@unhead/vue'
 
 export interface SeoEntity {
-  metaTitle?: string
-  metaDescription?: string
-  jsonLd?: string | object
-  metaKeyword?: string
-  metaImage?: string
-  name?: string
-  id?: string | number
+  metaTitle?: string | null
+  metaDescription?: string | null
+  jsonLd?: string | object | null
+  metaKeyword?: string | null
+  metaImage?: string | null
+  name?: string | null
+  id?: string | number | null
 }
 
 const validateSEO = (entity: SeoEntity, fullPath: string, entityType: string) => {
@@ -15,27 +15,27 @@ const validateSEO = (entity: SeoEntity, fullPath: string, entityType: string) =>
 
   if (!entity?.metaTitle) {
     warnings.push(
-      `[WARNING] - The ${entityType} from slug ${fullPath} does not have the metaTitle.`,
+      `[WARNING DEVELOPER] - The ${entityType} from slug ${fullPath} does not have the metaTitle.`,
     )
   }
   if (!entity?.metaDescription) {
     warnings.push(
-      `[WARNING] - The ${entityType} from slug ${fullPath} does not have the metaDescription.`,
+      `[WARNING DEVELOPER] - The ${entityType} from slug ${fullPath} does not have the metaDescription.`,
     )
   }
   if (!entity?.jsonLd) {
     warnings.push(
-      `[WARNING] - The ${entityType} from slug ${fullPath} does not have the jsonLd.`,
+      `[WARNING DEVELOPER] - The ${entityType} from slug ${fullPath} does not have the jsonLd.`,
     )
   }
   if (!entity?.metaKeyword) {
     warnings.push(
-      `[WARNING] - The ${entityType} from slug ${fullPath} does not have the metaKeyword.`,
+      `[WARNING DEVELOPER] - The ${entityType} from slug ${fullPath} does not have the metaKeyword.`,
     )
   }
   if (!entity?.metaImage) {
     warnings.push(
-      `[WARNING] - The ${entityType} from slug ${fullPath} does not have the metaImage.`,
+      `[WARNING DEVELOPER] - The ${entityType} from slug ${fullPath} does not have the metaImage.`,
     )
   }
 

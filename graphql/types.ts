@@ -5,34 +5,26 @@ import type {
   Category,
   Partner,
   Product,
-  ProductVariant,
   WishlistData,
   Country,
   ShippingMethod,
-  AdyenTransactionResult,
-  AdyenProviderInfoResult,
-  AdyenPaymentMethodsResult,
-  AdyenPaymentDetailsResult,
-  AdyenPaymentsResult,
   PaymentProvider,
   Orders,
   Order,
   Countries,
-  AddressEnum,
-  State,
   User,
+  ApplyCouponList,
+  ApplyGiftCardList,
 } from './gql/graphql'
 import type { AsyncData } from '#app'
 
-export type CategoryListResponse = AsyncData<
+export type CategoryListResponse =
   {
     categories: {
       categories: Category[]
       totalCount: number
     }
-  },
-  H3Error
->
+  }
 
 export type CategoryResponse = AsyncData<
   {
@@ -41,33 +33,26 @@ export type CategoryResponse = AsyncData<
   H3Error
 >
 
-export type ProductTemplateListResponse = AsyncData<
-  {
-    products: {
-      attributeValues: AttributeValue[]
-      maxPrice?: number
-      minPrice?: number
-      totalCount: number
-      filterCounts: any[]
-      products: Product[]
-    }
-  },
-  H3Error
->
+export type ProductTemplateListResponse = {
+  products: {
+    attributeValues: AttributeValue[]
+    maxPrice?: number
+    minPrice?: number
+    totalCount: number
+    filterCounts: any[]
+    products: Product[]
+  }
+}
 
-export type ProductResponse = AsyncData<
-  {
+export type ProductResponse = {
+  product: Product
+}
+
+export type ProductVariantResponse = {
+  productVariant: {
     product: Product
-  },
-  H3Error
->
-
-export type ProductVariantResponse = AsyncData<
-  {
-    productVariant: ProductVariant
-  },
-  H3Error
->
+  }
+}
 
 export type WishlistLoadResponse = AsyncData<
   {
@@ -97,16 +82,12 @@ export type CartResponse = AsyncData<
   H3Error
 >
 
-export type CartAddItemResponse = AsyncData<
-  {
-    cartAddMultipleItems: Cart
-  },
-  H3Error
->
+export type CartAddItemResponse = { cartAddMultipleItems: Cart }
+
 export type ApplyDiscountsResponse = AsyncData<
   {
-    order: Order
-    error: string
+    applyGiftCard: ApplyGiftCardList
+    applyCoupon: ApplyCouponList
   },
   H3Error
 >
@@ -116,19 +97,8 @@ export type MakeGiftCardPaymentResponse = AsyncData<
   },
   H3Error
 >
-export type CartUpdateItemResponse = AsyncData<
-  {
-    cartUpdateMultipleItems: Cart
-  },
-  H3Error
->
-
-export type CartRemoveItemResponse = AsyncData<
-  {
-    cartRemoveMultipleItems: Cart
-  },
-  H3Error
->
+export type CartUpdateItemResponse = { cartUpdateMultipleItems: Cart }
+export type CartRemoveItemResponse = { cartRemoveMultipleItems: Cart }
 
 export type LoadUserQueryResponse = AsyncData<
   {
@@ -147,14 +117,34 @@ export type RegisterUserResponse = AsyncData<
   H3Error
 >
 
+export type SignUpUserResponse = {
+  register: {
+    id: number
+    name: string
+    email: string
+    partner: Partner
+  }
+}
+
+export type BreadcrumbItem = {
+  name: string
+  link: string
+}
+
 export type LoginUserResponse = AsyncData<
   {
     login: {
-      partner: Partner
+      user: User
     }
   },
   H3Error
 >
+
+export type SignInUserResponse = {
+  login: {
+    user: User
+  }
+}
 
 export type ResetPasswordResponse = AsyncData<
   {
@@ -173,6 +163,11 @@ export type AddressesResponse = AsyncData<
   },
   H3Error
 >
+
+export type responseAddresses = {
+  addresses: Partner[]
+}
+
 export type AddAddressResponse = AsyncData<
   {
     addAddress: Partner
@@ -249,7 +244,7 @@ export type AddressFormFieldsInputExtendedFields = AddressFormFieldsInput & {
 
 export type CountriesResponse = AsyncData<
   {
-    countries: Countries
+    countries: Countries[]
   },
   H3Error
 >
@@ -275,7 +270,7 @@ export type DeliveryMethodResponse = AsyncData<
   H3Error
 >
 
-export type WebsiteHomepageResponse = AsyncData<
+export type WebsiteHomepageResponse =
   {
     metaTitle: string
     metaImage: string
@@ -283,9 +278,7 @@ export type WebsiteHomepageResponse = AsyncData<
     metaKeyword: string
     metaDescription: string
     jsonLd: string
-  },
-  H3Error
->
+  }
 
 export type PaymentMethodListResponse = AsyncData<
   {
@@ -349,3 +342,33 @@ export type NewsletterSubscribeResponse = AsyncData<
   },
   H3Error
 >
+export interface AttributeFacet {
+  id: string
+  label: string
+  attributeName: string
+  options: OrganizedAttribute[]
+  open?: boolean
+  type?: string
+  size?: number
+  search?: string
+}
+export interface OrganizedAttribute {
+  id: string
+  value: number
+  label: string
+  htmlColor: string
+  total?: number
+}
+
+export type CustomProductWithStockFromRedis = Product & {
+  stock: number
+}
+
+export type ImageGalleryItem = {
+  id: number
+  url: string
+  link: string
+  alt: string
+  width?: number | string
+  height?: number | string
+}

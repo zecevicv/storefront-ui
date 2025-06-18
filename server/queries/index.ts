@@ -1,4 +1,3 @@
-import type { DocumentNode } from 'graphql/language'
 import GetAddressesQuery from './GetAddressesQuery'
 import GetCategoriesQuery from './GetCategoriesQuery'
 import GetCategoryQuery from './GetCategoryQuery'
@@ -17,6 +16,7 @@ import LoadUserQuery from './LoadUserQuery'
 import StockLotsQuery from './StockLotsQuery'
 import WishlistLoadQuery from './WishlistLoadQuery'
 import GetWebsiteHomepageQuery from './GetWebsiteHomepageQuery'
+import GetProductTemplateListQueryForRecentViews from './GetProductTemplateListQueryForRecentViews'
 
 enum QueryName {
   GetProductVariantQuery = 'GetProductVariantQuery',
@@ -26,7 +26,7 @@ enum QueryName {
   GetCategoryQuery = 'GetCategoryQuery',
   GetProductTemplateListQuery = 'GetProductTemplateListQuery',
   GetProductTemplateQuery = 'GetProductTemplateQuery',
-  GetWishlist = 'GetWishlist',
+  // GetWishlist = 'GetWishlist',
   LoadCartQuery = 'LoadCartQuery',
   GetAddressesQuery = 'GetAddressesQuery',
   WishlistLoadQuery = 'WishlistLoadQuery',
@@ -38,9 +38,10 @@ enum QueryName {
   GetOrdersQuery = 'GetOrdersQuery',
   GetOrderQuery = 'GetOrderQuery',
   GetWebsiteHomepageQuery = 'GetWebsiteHomepageQuery',
+  GetProductTemplateListQueryForRecentViews = 'GetProductTemplateListQueryForRecentViews',
 }
 
-const Queries: Record<QueryName, DocumentNode> = {
+const Queries: Record<QueryName, string> = {
   GetProductVariantQuery,
   LoadUserQuery,
   StockLotsQuery,
@@ -59,6 +60,7 @@ const Queries: Record<QueryName, DocumentNode> = {
   GetOrderQuery,
   GetStatesQuery,
   GetWebsiteHomepageQuery,
+  GetProductTemplateListQueryForRecentViews,
 }
 
 const QueriesToByPassCache: string[] = [
