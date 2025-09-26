@@ -1,8 +1,9 @@
-import gql from "graphql-tag";
-export default gql`
+
+
+export default `
   mutation newsletterSubscribe($email: String!) {
     newsletterSubscribe(email: $email) {
       subscribed
     }
   }
-`;
+`

@@ -1,5 +1,4 @@
-import { gql } from '@apollo/client/core';
-export default gql`
+export default `
   mutation ($newPassword: String!, $token: String!) {
     changePassword(newPassword: $newPassword, token: $token) {
       id
@@ -7,4 +6,4 @@ export default gql`
       email
     }
   }
-`;
+`

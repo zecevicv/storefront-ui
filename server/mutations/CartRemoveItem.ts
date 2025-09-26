@@ -1,10 +1,10 @@
-import gql from "graphql-tag";
-import orderFragment from "../fragments/orderFragment";
 
-export default gql`
+import orderFragment from '../fragments/orderFragment'
+
+export default `
   mutation($lineIds: [Int]!){
     cartRemoveMultipleItems(lineIds: $lineIds) {
       ${orderFragment}
     }
   }
-`;
+`

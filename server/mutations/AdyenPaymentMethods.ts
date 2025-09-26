@@ -1,9 +1,9 @@
-import gql from "graphql-tag";
 
-export default gql`
+
+export default `
   mutation ($providerId: Int!) {
     adyenPaymentMethods(providerId: $providerId) {
       adyenPaymentMethods
     }
   }
-`;
+`

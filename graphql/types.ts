@@ -1,350 +1,374 @@
+import type { H3Error } from 'h3'
 import type {
   AttributeValue,
   Cart,
   Category,
   Partner,
   Product,
-  ProductVariant,
   WishlistData,
   Country,
   ShippingMethod,
-  AdyenTransactionResult,
-  AdyenProviderInfoResult,
-  AdyenPaymentMethodsResult,
-  AdyenPaymentDetailsResult,
-  AdyenPaymentsResult,
   PaymentProvider,
   Orders,
   Order,
   Countries,
-  AddressEnum,
-  State,
   User,
-} from "./gql/graphql";
-import type { H3Error } from "h3";
-import type { AsyncData } from "#app";
+  ApplyCouponList,
+  ApplyGiftCardList,
+} from './gql/graphql'
+import type { AsyncData } from '#app'
 
-export type CategoryListResponse = AsyncData<
+export type CategoryListResponse =
   {
     categories: {
-      categories: Category[];
-      totalCount: number;
-    };
-  },
-  H3Error
->;
+      categories: Category[]
+      totalCount: number
+    }
+  }
 
 export type CategoryResponse = AsyncData<
   {
-    category: Category;
+    category: Category
   },
   H3Error
->;
+>
 
-export type ProductTemplateListResponse = AsyncData<
-  {
-    products: {
-      attributeValues: AttributeValue[];
-      maxPrice?: number;
-      minPrice?: number;
-      totalCount: number;
-      products: Product[];
-    };
-  },
-  H3Error
->;
+export type ProductTemplateListResponse = {
+  products: {
+    attributeValues: AttributeValue[]
+    maxPrice?: number
+    minPrice?: number
+    totalCount: number
+    filterCounts: any[]
+    products: Product[]
+  }
+}
 
-export type ProductResponse = AsyncData<
-  {
-    product: Product;
-  },
-  H3Error
->;
+export type ProductResponse = {
+  product: Product
+}
 
-export type ProductVariantResponse = AsyncData<
-  {
-    productVariant: ProductVariant;
-  },
-  H3Error
->;
+export type ProductVariantResponse = {
+  productVariant: {
+    product: Product
+  }
+}
 
 export type WishlistLoadResponse = AsyncData<
   {
-    wishlistItems: WishlistData;
+    wishlistItems: WishlistData
   },
   H3Error
->;
+>
 
 export type WishlistAddItemResponse = AsyncData<
   {
-    wishlistAddItem: WishlistData;
+    wishlistAddItem: WishlistData
   },
   H3Error
->;
+>
 
 export type WishlistRemoveItemResponse = AsyncData<
   {
-    wishlistRemoveItem: WishlistData;
+    wishlistRemoveItem: WishlistData
   },
   H3Error
->;
+>
 
 export type CartResponse = AsyncData<
   {
-    cart: Cart;
+    cart: Cart
   },
   H3Error
->;
+>
 
-export type CartAddItemResponse = AsyncData<
-  {
-    cartAddMultipleItems: Cart;
-  },
-  H3Error
->;
+export type CartAddItemResponse = { cartAddMultipleItems: Cart }
+
 export type ApplyDiscountsResponse = AsyncData<
   {
-    order: Order;
-    error: string;
+    applyGiftCard: ApplyGiftCardList
+    applyCoupon: ApplyCouponList
   },
   H3Error
->;
+>
 export type MakeGiftCardPaymentResponse = AsyncData<
   {
-    makeGiftCardPayment: { done: Boolean };
+    makeGiftCardPayment: { done: boolean }
   },
   H3Error
->;
-export type CartUpdateItemResponse = AsyncData<
-  {
-    cartUpdateMultipleItems: Cart;
-  },
-  H3Error
->;
-
-export type CartRemoveItemResponse = AsyncData<
-  {
-    cartRemoveMultipleItems: Cart;
-  },
-  H3Error
->;
+>
+export type CartUpdateItemResponse = { cartUpdateMultipleItems: Cart }
+export type CartRemoveItemResponse = { cartRemoveMultipleItems: Cart }
 
 export type LoadUserQueryResponse = AsyncData<
   {
-    partner: Partner;
+    partner: Partner
   },
   H3Error
->;
+>
 
 export type RegisterUserResponse = AsyncData<
   {
-    id: number;
-    name: string;
-    email: string;
-    partner: Partner;
+    id: number
+    name: string
+    email: string
+    partner: Partner
   },
   H3Error
->;
+>
+
+export type SignUpUserResponse = {
+  register: {
+    id: number
+    name: string
+    email: string
+    partner: Partner
+  }
+}
+
+export type BreadcrumbItem = {
+  name: string
+  link: string
+}
 
 export type LoginUserResponse = AsyncData<
   {
     login: {
-      partner: Partner;
-    };
+      user: User
+    }
   },
   H3Error
->;
+>
+
+export type SignInUserResponse = {
+  login: {
+    user: User
+  }
+}
 
 export type ResetPasswordResponse = AsyncData<
   {
-    id: number;
-    name: string;
-    email: string;
+    id: number
+    name: string
+    email: string
   },
   H3Error
->;
+>
 
-export type PartnerResponse = AsyncData<Partner, H3Error>;
+export type PartnerResponse = AsyncData<Partner, H3Error>
 
 export type AddressesResponse = AsyncData<
   {
-    addresses: Partner[];
+    addresses: Partner[]
   },
   H3Error
->;
+>
+
+export type responseAddresses = {
+  addresses: Partner[]
+}
+
 export type AddAddressResponse = AsyncData<
   {
-    addAddress: Partner;
+    addAddress: Partner
   },
   H3Error
->;
+>
 
 export type UpdatePasswordResponse = AsyncData<
   {
     updatePassword: {
-      id: number;
-    };
+      id: number
+    }
   },
   H3Error
->;
+>
 
 export type ChangePasswordResponse = AsyncData<
   {
-    changePassword: User;
+    changePassword: User
   },
   H3Error
->;
+>
 
 export type UpdateMyAccountResponse = AsyncData<
   {
-    updateMyAccount: Partner;
+    updateMyAccount: Partner
   },
   H3Error
->;
+>
 
 export type CreateUpdatePartnerResponse = AsyncData<
   {
-    createUpdatePartner: Partner;
+    createUpdatePartner: Partner
   },
   H3Error
->;
+>
 
 export type UpdateAddressResponse = AsyncData<
   {
-    updateAddress: Partner;
+    updateAddress: Partner
   },
   H3Error
->;
+>
 
 export type SelectCurrentAddressResponse = AsyncData<
   {
-    selectAddress: Partner;
+    selectAddress: Partner
   },
   H3Error
->;
+>
 
 export type DeleteAddressResponse = AsyncData<
   {
-    result: boolean;
+    result: boolean
   },
   H3Error
->;
+>
 
 export type AddressFormFieldsInput = {
-  street: string;
-  street2?: string;
-  countryId: number;
-  city: string;
-  stateId: number;
-  zip: string;
-};
+  street: string
+  street2?: string
+  countryId: number
+  city: string
+  stateId: number
+  zip: string
+}
 
 export type AddressFormFieldsInputExtendedFields = AddressFormFieldsInput & {
-  id?: number;
-  name: string;
-  phone: string;
-  email?: string;
-};
+  id?: number
+  name: string
+  phone: string
+  email?: string
+}
 
 export type CountriesResponse = AsyncData<
   {
-    countries: Countries;
+    countries: Countries[]
   },
   H3Error
->;
+>
 
 export type StatesResponse = AsyncData<
   {
-    country: Country;
+    country: Country
   },
   H3Error
->;
+>
 
 export type DeliveryMethodListResponse = AsyncData<
   {
-    deliveryMethods: ShippingMethod[];
+    deliveryMethods: ShippingMethod[]
   },
   H3Error
->;
+>
 
 export type DeliveryMethodResponse = AsyncData<
   {
-    deliveryMethodId: number;
+    deliveryMethodId: number
   },
   H3Error
->;
+>
 
-export type WebsiteHomepageResponse = AsyncData<
+export type WebsiteHomepageResponse =
   {
-    metaTitle: String;
-    metaImage: String;
-    metaImageFilename: String;
-    metaKeyword: String;
-    metaDescription: String;
-    jsonLd: String;
-  },
-  H3Error
->;
+    metaTitle: string
+    metaImage: string
+    metaImageFilename: string
+    metaKeyword: string
+    metaDescription: string
+    jsonLd: string
+  }
 
 export type PaymentMethodListResponse = AsyncData<
   {
-    paymentProviders: PaymentProvider[];
+    paymentProviders: PaymentProvider[]
   },
   H3Error
->;
+>
 
 export type AdyenTransactionResponse = AsyncData<
   {
-    adyenTransaction: AdyenTransactionResult;
+    adyenTransaction: AdyenTransactionResult
   },
   H3Error
->;
+>
 
 export type AdyenProviderInfoResponse = AsyncData<
   {
-    adyenProviderInfo: AdyenProviderInfoResult;
+    adyenProviderInfo: AdyenProviderInfoResult
   },
   H3Error
->;
+>
 
 export type AdyenPaymentMethodsResponse = AsyncData<
   {
-    adyenPaymentMethods: AdyenPaymentMethodsResult;
+    adyenPaymentMethods: AdyenPaymentMethodsResult
   },
   H3Error
->;
+>
 
 export type AdyenPaymentDetailsResponse = AsyncData<
   {
-    adyenPaymentDetails: AdyenPaymentDetailsResult;
+    adyenPaymentDetails: AdyenPaymentDetailsResult
   },
   H3Error
->;
+>
 
 export type AdyenPaymentsResponse = AsyncData<
   {
-    adyenPayments: AdyenPaymentsResult;
+    adyenPayments: AdyenPaymentsResult
   },
   H3Error
->;
+>
 
 export type GetOrdersResponse = AsyncData<
   {
-    orders: Orders;
+    orders: Orders
   },
   H3Error
->;
+>
 
 export type GetOrderResponse = AsyncData<
   {
-    order: Order;
+    order: Order
   },
   H3Error
->;
+>
 
 export type NewsletterSubscribeResponse = AsyncData<
   {
-    newsletterSubscribe: boolean;
+    newsletterSubscribe: boolean
   },
   H3Error
->;
+>
+export interface AttributeFacet {
+  id: string
+  label: string
+  attributeName: string
+  options: OrganizedAttribute[]
+  open?: boolean
+  type?: string
+  size?: number
+  search?: string
+}
+export interface OrganizedAttribute {
+  id: string
+  value: number
+  label: string
+  htmlColor: string
+  total?: number
+}
+
+export type CustomProductWithStockFromRedis = Product & {
+  stock: number
+}
+
+export type ImageGalleryItem = {
+  id: number
+  url: string
+  link: string
+  alt: string
+  width?: number | string
+  height?: number | string
+}

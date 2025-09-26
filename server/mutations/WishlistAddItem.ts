@@ -1,10 +1,9 @@
-import { gql } from '@apollo/client/core';
-import wishlistItemsFragment from '../fragments/wishlistItemsFragment';
+import wishlistItemsFragment from '../fragments/wishlistItemsFragment'
 
-export default gql`
+export default `
   mutation($productId: Int!) {
     wishlistAddItem(productId: $productId) {
       ${wishlistItemsFragment}
     }
   }
-`;
+`

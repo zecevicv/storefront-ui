@@ -1,6 +1,4 @@
-import gql from "graphql-tag";
-
-export default gql`
+export default `
   mutation ($providerId: Int!, $tokenizationRequested: Boolean = false) {
     adyenTransaction(
       providerId: $providerId
@@ -9,4 +7,4 @@ export default gql`
       transaction
     }
   }
-`;
+`

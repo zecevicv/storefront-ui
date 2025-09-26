@@ -1,6 +1,4 @@
-import { gql } from '@apollo/client/core';
-
-export default gql`
+export default `
   query {
     websiteHomepage {
       metaTitle
@@ -11,4 +9,4 @@ export default gql`
       jsonLd
     }
   }
-`;
+`

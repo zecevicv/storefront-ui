@@ -1,10 +1,9 @@
-import { gql } from "@apollo/client/core";
-import addressFragment from "../fragments/addressFragment";
+import addressFragment from '../fragments/addressFragment'
 
-export default gql`
+export default `
 mutation selectAddress ($address: SelectAddressInput!, $type: AddressEnum!) {
       selectAddress(address: $address, type: $type) {
         ${addressFragment}
     }
   }
-`;
+`

@@ -1,5 +1,13 @@
+import alternativeProductsFragment from './alternativeProductsFragment'
+import frequentlyTogetherProductsFragment from './frequentlyTogetherProductsFragment'
+
 export default `
   id
+  metaDescription
+  metaImage
+  metaKeyword
+  metaTitle
+  jsonLd
   firstVariant{
     id
     combinationInfoVariant
@@ -17,16 +25,23 @@ export default `
       }
     }
   }
+  ${alternativeProductsFragment}
+  ${frequentlyTogetherProductsFragment}
   smallImage
   price
   name
   description
   image
   imageFilename
+  mediaGallery{
+    id
+    name
+    image
+    imageFilename
+  }
   combinationInfo
   slug
-  sku
-  jsonLd
+  sku 
   isInWishlist
   categories {
     id
@@ -49,4 +64,4 @@ export default `
     }
     search
   }
-`;
+`

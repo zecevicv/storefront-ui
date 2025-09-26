@@ -1,61 +1,89 @@
-import type { ApolloError } from "@apollo/client";
-import type { Endpoints } from "@erpgap/odoo-sdk-api-client";
+import { Mutations } from '~/server/mutations'
 
 export default defineEventHandler(async (event) => {
-  const body = await readBody(event);
-
-  const api: Endpoints = event.context.apolloClient.api;
+  const config = useRuntimeConfig(event)
+  const body = await readBody(event)
 
   try {
-    const response = await api.mutation(body?.[0], body?.[1]);
+    const response: any = await $fetch.raw(`${config.public.odooBaseUrl}graphql/vsf`, {
+      method: 'POST',
+      headers: {
+        'accept': 'application/json',
+        'content-type': 'application/json',
+        'REAL-IP': getRequestIP(event) || '',
+        'resquest-host': getRequestHost(event),
+        'Cookie': `session_id=${getCookie(event, 'session_id')}`,
+      },
+      body: { query: Mutations[body?.[0]?.mutationName], variables: body?.[1] },
+    })
 
-    if ((response.data as any)?.cookie) {
-      appendResponseHeader(event, "Set-cookie", (response.data as any)?.cookie);
+    const cookies: string[] = response?.headers?.getSetCookie()
+    const hasSessionIdOnRequest = cookies.some((cookie: string) => cookie.includes('session_id'))
+
+    if (!hasSessionIdOnRequest) {
+      setCookie(event, 'session_id', getCookie(event, 'session_id') as string)
     }
 
-    if (response.errors) {
-      throw createError({ statusCode: 400, data: response.errors });
+    cookies?.forEach((cookie: string) => {
+      appendResponseHeader(event, 'set-cookie', cookie)
+    })
+
+    if (body?.[0]?.mutationName === 'LogoutMutation') {
+      deleteCookie(event, 'session_id')
     }
 
-    delete (response.data as any).cookie;
-
-    return response.data;
-  } catch (error: any) {
-    const apolloError = error as ApolloError;
-
-    if (apolloError.graphQLErrors?.length > 0) {
+    if (response?._data?.errors?.length > 0) {
       throw createError({
         statusCode: 500,
-        data: apolloError.graphQLErrors,
-        message: apolloError.message,
-      });
+        data: response?._data?.errors,
+        message: response?._data?.errors?.[0]?.message,
+      })
     }
-    if (apolloError.protocolErrors?.length > 0) {
-      throw createError({
-        statusCode: 400,
-        data: apolloError.protocolErrors,
-        message: apolloError.message,
-      });
-    }
-    if (apolloError.clientErrors?.length > 0) {
-      throw createError({
-        statusCode: 400,
-        data: apolloError.clientErrors,
-        message: apolloError.message,
-      });
-    }
-    if (apolloError.networkError) {
+
+    return response?._data?.data
+  }
+  catch (error: any) {
+    if (error?.response?._data?.errors?.length > 0) {
       throw createError({
         statusCode: 500,
-        data: (apolloError.networkError as any)?.result?.errors,
-        message: apolloError.message,
-      });
+        data: error.response?._data?.errors,
+        message: error.message,
+      })
+    }
+
+    if (error?.graphQLErrors?.length > 0) {
+      throw createError({
+        statusCode: 500,
+        data: error.graphQLErrors,
+        message: error.message,
+      })
+    }
+    if (error.protocolErrors?.length > 0) {
+      throw createError({
+        statusCode: 400,
+        data: error.protocolErrors,
+        message: error.message,
+      })
+    }
+    if (error.clientErrors?.length > 0) {
+      throw createError({
+        statusCode: 400,
+        data: error.clientErrors,
+        message: error.message,
+      })
+    }
+    if (error.networkError) {
+      throw createError({
+        statusCode: 500,
+        data: (error.networkError as any)?.result?.errors,
+        message: error.message,
+      })
     }
 
     throw createError({
       statusCode: 500,
       data: error?.data,
       message: error.data?.[0]?.message,
-    });
+    })
   }
-});
+})

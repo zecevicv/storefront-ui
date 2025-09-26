@@ -1,6 +1,4 @@
-import gql from "graphql-tag";
-
-export default gql`
+export default `
   mutation (
     $providerId: Int!
     $paymentDetails: GenericScalar!
@@ -14,4 +12,4 @@ export default gql`
       adyenPaymentDetails
     }
   }
-`;
+`
